@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: student-mgmt-api
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: student-mgmt-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: REFRESH_SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_MINUTES
+        value: 30
+      - key: REFRESH_TOKEN_DAYS
+        value: 7
+
+databases:
+  - name: student-mgmt-db
+    databaseName: student_mgmt
+    user: student_mgmt_user
+    region: oregon
