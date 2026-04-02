@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from database import engine, Base
-from routers import auth, students, users
+from routers import auth, students, users, scraper
 import models  # noqa: F401 – ensures models are registered before create_all
 
 
@@ -37,6 +37,7 @@ app.add_middleware(
 app.include_router(auth.router,     prefix="/api/auth",     tags=["Auth"])
 app.include_router(students.router, prefix="/api/students", tags=["Students"])
 app.include_router(users.router,    prefix="/api/users",    tags=["Users"])
+app.include_router(scraper.router,  prefix="/api/scraper",  tags=["Scraper"])
 
 
 @app.get("/", tags=["Health"])
